@@ -1,3 +1,25 @@
 require_relative '../config/environment.rb'
 
+
+julien = User.new("Julien")
+nemanja = User.new("Nemanja")
+maccheese = Recipe.new("Mac & Cheese")
+turkeysandwich = Recipe.new("Turkey Sandwich")
+julien.add_recipe_card(10, maccheese)
+nemanja.add_recipe_card(10, turkeysandwich)
+julien.add_recipe_card(10, turkeysandwich)
+julien.add_recipe_card(10, turkeysandwich)
+julien.add_recipe_card(10, turkeysandwich)
+cheese = Ingredient.new("Cheese")
+mac = Ingredient.new("Mac")
+turkey = Ingredient.new("Turkey")
+bread = Ingredient.new("Bread")
+lettuce = Ingredient.new("Lettuce")
+tomato = Ingredient.new("Tomato")
+turkeysandwich.add_ingredients([turkey, bread, lettuce, tomato])
+maccheese.add_ingredients([mac, cheese])
+julien.declare_allergen(cheese)
+julien.declare_allergen(bread)
+nemanja.declare_allergen(turkey)
+nemanja.declare_allergen(tomato)
 binding.pry
