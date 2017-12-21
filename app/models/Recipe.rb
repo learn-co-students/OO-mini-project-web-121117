@@ -5,7 +5,6 @@ class Recipe
   def initialize(name)
     @name = name
     @@all << self
-    @ingredients = []
   end
 
   def self.all
@@ -13,7 +12,7 @@ class Recipe
   end
 
   def ingredients
-    @ingredients.map {|ingredient| ingredient.name}
+    RecipeIngredients.all.map {|ingredient| ingredient.name if ReceipeIngredients.recipe == self}
   end
 
   def self.most_popular
@@ -28,31 +27,17 @@ class Recipe
   end
 
   def users
-    RecipeCard.all.select do |recipe_card|
-      if recipe_card.recipe == self
-        recipe_card.user
-      end
-    end
+    RecipeCard.all.select { |recipe_card| recipe_card.user if recipe_card.recipe == self}
   end
 
-  # def allergens
-  #   @ingredients.select do |ingredient|
-  #     return ingredient if Allergen.all.include?(ingredient)
-  #   end
-  # end
 
   def allergens
     ingredients = RecipeIngredient.all.map {|ri| ri.ingredient}
-    Allergen.all.map do |allergen|
-      allergen.ingredient if ingredients.include?(allergen.ingredient)
-    end
+    Allergen.all.map {|allergen| allergen.ingredient if ingredients.include?(allergen.ingredient)}
   end
 
   def add_ingredients(ingredients_array)
-    ingredients_array.each do |ingredient|
-      RecipeIngredient.new(self, ingredient)
-      @ingredients << ingredient
-    end
+    ingredients_array.each { |ingredient| RecipeIngredient.new(self, ingredient) }
   end
 
 end
