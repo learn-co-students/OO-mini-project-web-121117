@@ -29,7 +29,7 @@ class User
     sorted = self.recipes.sort_by do |recipe|
       self.recipes.count(recipe)
     end
-    sorted[-3..-1]
+    sorted.uniq![-3..-1] ##N, I added .uniq because it would return multiple of the same
   end
 
   def most_recent_recipe

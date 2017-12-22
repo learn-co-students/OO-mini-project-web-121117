@@ -13,13 +13,15 @@ class Ingredient
   end
 
 
-  #this isn't working
+  #fixed it
   def self.most_common_allergen
-    sorted = Allergen.all.sort_by do |allergen|
-      Allergen.all.count(allergen.ingredient)
+    all_allergen_ingredients = Allergen.all.map do |allergen|
+      allergen.ingredient
     end
-    binding.pry
-    sorted[-1].ingredient
+    sorted = all_allergen_ingredients.sort_by do |ingredient|
+      all_allergen_ingredients.count(ingredient)
+    end
+    sorted[-1]
   end
 
 end
