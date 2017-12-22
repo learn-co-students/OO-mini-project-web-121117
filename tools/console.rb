@@ -20,6 +20,7 @@ turkeysandwich.add_ingredients([turkey, bread, lettuce, tomato])
 maccheese.add_ingredients([mac, cheese])
 julien.declare_allergen(cheese)
 julien.declare_allergen(bread)
+nemanja.declare_allergen(bread)
 nemanja.declare_allergen(turkey)
 nemanja.declare_allergen(tomato)
 binding.pry
