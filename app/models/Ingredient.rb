@@ -4,7 +4,7 @@ class Ingredient
   @@all = []
 
   def initialize(name)
-    @name = name 
+    @name = name
   end
 
   def self.create(name)
@@ -12,10 +12,10 @@ class Ingredient
     new_ingredient.save
   end
 
-  def save 
+  def save
     @@all << self
     self
-  end 
+  end
 
   def self.all
     @@all
@@ -29,23 +29,4 @@ class Ingredient
     end 
     allergen_count.key(allergen_count.values.max)
   end
-
-
-
-
-  #   allergen_highest = 0
-  #   most_common_allergen_name = nil
-  #   Allergen.all.each do |allergen| 
-  #     allergen_count = 0 
-  #       if user.allergen == allergen 
-  #         allergen_count += 1 
-  #       end 
-  #       if allergen_count > allergen_highest
-  #         allergen_highest = allergen_count 
-  #         most_commone_allergen_name = allergen
-  #       end  
-  #     end 
-  #   end
-  #   most_common_allergen_name
-  # end
 end

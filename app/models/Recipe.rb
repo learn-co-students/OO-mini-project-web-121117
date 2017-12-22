@@ -9,11 +9,11 @@ class Recipe
 
   def self.create(name)
     new_recipe = Recipe.new(name)
-    new_recipe.save 
-    new_recipe 
+    new_recipe.save
+    new_recipe
   end
 
-  def save 
+  def save
     @@all << self
   end
 
@@ -24,17 +24,15 @@ class Recipe
   def self.most_popular
     highest = 0
     highest_recipe = nil
-    Recipe.all.each do |recipe| 
-      count = 0 
+    Recipe.all.each do |recipe|
+      count = 0
       RecipeCard.all.each do |card|
-        if card.recipe == recipe 
-          count += 1 
-        end 
-        if count > highest 
-          highest = count 
-          highest_recipe = recipe 
-        end  
-      end 
+        count += 1 if card.recipe == recipe
+        if count > highest
+          highest = count
+          highest_recipe = recipe
+        end
+      end
     end
     highest_recipe
   end
@@ -43,58 +41,33 @@ class Recipe
     results = []
     User.all.each do |user|
       user.recipes.each do |recipe_card|
-        if recipe_card.recipe == self 
-           results << recipe_card.user
-        end
-      end 
+        results << recipe_card.user if recipe_card.recipe == self
+      end
     end
     results
   end
 
-
-  #   User.all.collect do |user|
-  #     user.recipes.include?(self)
-  #   end
-  #   results
-  # end 
-
-  # User.all.collect do |user|
-  #   user.recipes.recipe == self 
-  # end
-
-  # User.all.each do |user|
-  #   user.recipes.each do |recipe_card|
-  #     if recipe_card.recipe == self 
-  #       results << recipe_card.user
-  #     end
-  #   end 
-  # end
-
   def ingredients
-    all_ingredients = RecipeIngredient.all 
+    all_ingredients = RecipeIngredient.all
     relevent_ingredients = all_ingredients.select do |recipe_ingredient|
-      recipe_ingredient.recipe == self 
-    end 
-    relevent_ingredients.map do |ri|
-      ri.ingredient 
-    end 
+      recipe_ingredient.recipe == self
+    end
+    relevent_ingredients.map(&:ingredient)
   end
 
   def allergens
     all_in = []
-    self.ingredients.each do |ingredient|
+    ingredients.each do |ingredient|
       Allergen.all.each do |allergen|
-        if ingredient == allergen.ingredient
-          all_in << ingredient
-        end
-      end 
-    end 
+        all_in << ingredient if ingredient == allergen.ingredient
+      end
+    end
     all_in.uniq
-  end 
+  end
 
   def add_ingredients(ingredient_array)
     ingredient_array.each do |ingredient|
-      ingredient = RecipeIngredient.create(self, ingredient)
-    end 
+      RecipeIngredient.create(self, ingredient)
+    end
   end
 end

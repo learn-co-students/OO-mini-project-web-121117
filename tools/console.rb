@@ -52,8 +52,4 @@ pizza_array = [cheese, milk, salt, pepper, egg]
 pb_j_array = [peanut_butter, jelly, bread]
 pb_j.add_ingredients(pb_j_array)
 
-# apple_pie = Recipe.create("")
-
-User.all
-
 binding.pry

@@ -5,17 +5,17 @@ class Allergen
 
   def initialize(ingredient, user)
     @ingredient = ingredient
-    @user = user 
-  end 
+    @user = user
+  end
 
   def self.create(ingredient, user)
     new_allergen = Allergen.new(ingredient, user)
-    new_allergen.save 
+    new_allergen.save
   end
 
-  def save 
+  def save
     @@all << self
-    self 
+    self
   end
 
   def self.all

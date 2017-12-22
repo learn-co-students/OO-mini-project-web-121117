@@ -11,12 +11,12 @@ class RecipeCard
 
   def self.create(recipe, rating)
     new_recipe_card = RecipeCard.new(recipe, rating)
-    new_recipe_card.save 
+    new_recipe_card.save
     new_recipe_card
-  end 
+  end
 
-  def save 
-    @@all << self 
+  def save
+    @@all << self
   end
 
   def self.all
