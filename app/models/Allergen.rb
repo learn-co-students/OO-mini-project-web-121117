@@ -1,5 +1,5 @@
 class Allergen
-  attr_accessor :ingredient, :user
+  attr_reader :ingredient, :user
   @@all = []
 
   def initialize(ingredient, user)

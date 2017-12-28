@@ -19,8 +19,4 @@ class Ingredient
     allergen_count.each {|allergen, count| return allergen if count == allergen_count.values.max }
   end
 
-
-
-
-
 end

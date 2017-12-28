@@ -1,11 +1,10 @@
 class User
-  attr_accessor :name, :recipe_card, :allergen
+  attr_reader :name, :allergens
 
   @@all = []
   def initialize(name)
     @name = name
     @@all << self
-    @recipe_card = []
   end
 
   def self.all
@@ -13,14 +12,14 @@ class User
   end
 
   def recipes
-    @recipe_card.map do |recipe_card|
-      recipe_card.recipe
-    end
+    recipe_card = RecipeCard.all.select {|recipe_card| recipe_card.user == self }
+    recipe_card.map {|recipe_card| recipe_card.recipe}
   end
 
   def add_recipe_card(recipe, rating)
-    new_recipe_card = RecipeCard.new(recipe, rating, self)
-    @recipe_card << new_recipe_card
+    date = Time.now
+    new_recipe_card = RecipeCard.new(self, recipe, date, rating)
+
   end
 
   def declare_allergen(ingredient)
@@ -28,21 +27,27 @@ class User
   end
 
   def allergens
-    Allergen.all.select do |allergen|
-      allergen if allergen.user == self
-    end
+    allergy = Allergen.all.select { |allergen| allergen.user == self }
+    allergy.map {|allergen| allergen.ingredient}
   end
 
   def top_three_recipes
-    top_three = @recipe_card.sort_by do |recipe_card|
+    top_three = RecipeCard.all.sort_by do |recipe_card|
       recipe_card.rating
     end
-
-    top_three.reverse.map { |recipe_card| recipe_card.recipe }[0..2]
+    top_three.reverse.map { |recipe_card| recipe_card.recipe }[0..2].uniq
   end
 
   def most_recent_recipe
-    @recipe_card.last.recipe
+    recipe_card = RecipeCard.all.select {|recipe_card| recipe_card.user == self }
+    recipe_card.last.recipe
+  end
+
+  def safe_recipes
+    safe = []
+    allergies = self.allergens
+    allergies.each { |allergy| Recipe.all.each {|recipe| safe << recipe if !recipe.ingredients.include?(allergy)} }
+    safe.empty? ? Recipe.all : safe
   end
 
 
