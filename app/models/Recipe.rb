@@ -6,6 +6,15 @@ class Recipe
 
   def initialize(name)
     @name = name
+    # @@all << self
+  end
+
+  def self.create (name)
+    r = Recipe.new(name)
+    r.save
+  end
+
+  def save
     @@all << self
   end
 
@@ -13,7 +22,6 @@ class Recipe
     ingredient_instances.each do |ingredient_instance|
       new_recipe_ingredients = RecipeIngredient.new(ingredient_instance, self)
     end
-
   end
 
   def ingredients
@@ -23,6 +31,25 @@ class Recipe
     relevant_recipes.map do |relevant_ingredient|
       relevant_ingredient.ingredient
     end
+  end
+
+  def allergens
+    recipe_allergens = []
+    recipe_ingredients = RecipeIngredient.all.select do |recipe_ingredient|
+      recipe_ingredient.recipe = self
+    end
+    recipe_ingredients.map! do |recipe_ingredient|
+      recipe_ingredient.ingredient
+    end
+    parsed_allergen_ingredients = Allergen.all.map do |allergen|
+      allergen.ingredient
+    end
+    recipe_ingredients.each do |recipe_ingredient|
+      if parsed_allergen_ingredients.include?(recipe_ingredient)
+        recipe_allergens << recipe_ingredient
+      end
+    end
+    recipe_allergens
   end
 
   def users
