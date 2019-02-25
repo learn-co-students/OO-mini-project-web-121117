@@ -39,11 +39,47 @@ class User
         Allergen.new(user, ingredient)
     end
 
-    # User#top_three_recipes should return the top three highest rated recipes for this user.
+    # User#top_three_recipes should return the top three highest rated recipes
+    # for this user.
     def top_three_recipes
+        total = {}
+
+        # associate each recipe with how many 
+        RecipeCard.all.each do |card|
+            if card.user == self
+                total[card.recipe] = card.recipe.rating
+            end
+        end
+
+        # sort the the (recipe,rating) key value pairs by their rating
+        sorted = total.sort_by do |key, value|
+            value
+        end        
+
+        # take the last three (high ratings appear at the end of the list)
+        # map them to pick off the recipe from the RecipeCard
+        sorted.last(3).reverse.map do |counts|
+            counts[0]
+        end
     end
 
     # User#most_recent_recipe should return the recipe most recently added to the user's cookbook.
     def most_recent_recipe
+        total = {}
+
+        # associate each recipe with how many 
+        RecipeCard.all.each do |card|
+            if card.user == self
+                total[card.recipe] = card.recipe.date
+            end
+        end
+
+        # sort the the (recipe,rating) key value pairs by their rating
+        sorted = total.sort_by do |key, value|
+            value
+        end        
+
+        # the last value with be the most recent
+        sorted.last
     end
 end
