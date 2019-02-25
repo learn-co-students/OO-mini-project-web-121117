@@ -46,5 +46,19 @@ class Recipe
     # Recipe.most_popular should return the recipe instance with the highest number
     #   of users (the recipe that has the most recipe cards)
     def self.most_popular
+        tally = {}
+        most = nil
+        RecipeCard.all.each do |recipe_card|
+            recipe = recipe_card.recipe
+            if tally[recipe] == nil
+                tally[recipe] = 0
+            end
+            tally[recipe] += 1
+
+            if most == nil || tally[recipe] > tally[most]
+                most = recipe
+            end
+        end
+        most
     end
 end

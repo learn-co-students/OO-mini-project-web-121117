@@ -16,7 +16,7 @@ class Ingredient
     def self.most_common_allergen
         tally = {}
         most = nil
-        Allergen.each do |ingredient|
+        Allergen.all.each do |ingredient|
             if tally[ingredient] == nil
                 tally[ingredient] = 0
             end
