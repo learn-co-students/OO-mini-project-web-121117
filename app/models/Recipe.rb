@@ -33,6 +33,16 @@ class Recipe
     # Recipe#allergens should return all of the ingredients in this recipe that are
     #   allergens
     def allergens
+        # first get an array of all possible allergic ingredients
+        allergic_ingredients = Allergen.all.map do |Allergen|
+            Allergen.ingredient
+        end.uniq
+
+        # iterate through this recipes ingredients and see if they're
+        # in the list of allergic ingredients
+        self.ingredients.select do |ingredient|
+            allergic_ingredients.include? ingredient
+        end
     end
 
     # Recipe#add_ingredients should take an array of ingredient instances as an
