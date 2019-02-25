@@ -1,8 +1,3 @@
-# Build the following methods on the Ingredient class
-
-# Ingredient.all should return all of the ingredient instances
-# Ingredient.most_common_allergen should return the ingredient instance that
-# the highest number of users are allergic to
 class Ingredient
     attr_reader :name
     @@all = []
@@ -16,6 +11,21 @@ class Ingredient
         @@all
     end
 
+    # Ingredient.most_common_allergen should return the ingredient instance that
+    # the highest number of users are allergic to
     def self.most_common_allergen
+        tally = {}
+        most = nil
+        Allergen.each do |ingredient|
+            if tally[ingredient] == nil
+                tally[ingredient] = 0
+            end
+            tally[ingredient] += 1
+
+            if most == nil || tally[ingredient] > tally[most]
+                most = ingredient
+            end
+        end
+        most
     end
 end
