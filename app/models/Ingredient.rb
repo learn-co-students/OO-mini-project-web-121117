@@ -26,6 +26,10 @@ class Ingredient
                 most = ingredient
             end
         end
-        most
+        most.ingredient
+    end
+
+    def to_s
+        @name
     end
 end

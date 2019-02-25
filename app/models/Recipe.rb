@@ -34,8 +34,8 @@ class Recipe
     #   allergens
     def allergens
         # first get an array of all possible allergic ingredients
-        allergic_ingredients = Allergen.all.map do |Allergen|
-            Allergen.ingredient
+        allergic_ingredients = Allergen.all.map do |allergen|
+            allergen.ingredient
         end.uniq
 
         # iterate through this recipes ingredients and see if they're
@@ -70,5 +70,9 @@ class Recipe
             end
         end
         most
+    end
+
+    def to_s
+        @name
     end
 end

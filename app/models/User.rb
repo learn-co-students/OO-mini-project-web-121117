@@ -1,6 +1,8 @@
 class User
+    attr_reader :name
     @@all = []
-    def initialize()
+    def initialize(name)
+        @name = name
         @@all << self
     end
 
@@ -11,7 +13,7 @@ class User
 
     # User#recipes should return all of the recipes this user has recipe cards for
     def recipes
-        RecipeCard.select do |recipe_card|
+        RecipeCard.all.select do |recipe_card|
             recipe_card.user == self
         end.map do |card|
             card.recipe
@@ -20,7 +22,7 @@ class User
 
     # User#allergens should return all of the ingredients this user is allergic to
     def allergens
-        Allergen.select do |allergen|
+        Allergen.all.select do |allergen|
             allergen.user == self
         end.map do |allergen|
             allergen.ingredient
@@ -31,12 +33,12 @@ class User
     # well as a date and rating, and create a new recipe card for this user and
     # the given recipe
     def add_recipe_card(recipe, date, rating)
-        RecipeCard.new(user, recipe, date, rating)
+        RecipeCard.new(self, recipe, date, rating)
     end
 
     # User#declare_allergen should accept an ingredient instance as an argument, and create a new allergen instance for this user and the given ingredient
     def declare_allergen(ingredient)
-        Allergen.new(user, ingredient)
+        Allergen.new(self, ingredient)
     end
 
     # User#top_three_recipes should return the top three highest rated recipes
@@ -47,7 +49,7 @@ class User
         # associate each recipe with how many 
         RecipeCard.all.each do |card|
             if card.user == self
-                total[card.recipe] = card.recipe.rating
+                total[card.recipe] = card.rating
             end
         end
 
@@ -70,7 +72,7 @@ class User
         # associate each recipe with how many 
         RecipeCard.all.each do |card|
             if card.user == self
-                total[card.recipe] = card.recipe.date
+                total[card.recipe] = card.date
             end
         end
 
@@ -81,5 +83,9 @@ class User
 
         # the last value with be the most recent
         sorted.last
+    end
+
+    def to_s
+        @name
     end
 end

@@ -1,7 +1,7 @@
 # An Allergen is a join between a user and an ingredient. This is a
 # has-many-through relationship.
 class Allergen
-    attr_reader = :user, :ingredient
+    attr_reader :user, :ingredient
     @@all = []
 
     def initialize(user, ingredient)
@@ -12,5 +12,9 @@ class Allergen
 
     def self.all
         @@all
+    end
+
+    def to_s
+        "#{@user.name} is allergic to #{@ingredient.name}"
     end
 end
